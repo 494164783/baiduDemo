@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		*{
+			margin: 0;
+			padding: 0;
+			list-style: none;
+		}
+		body{
+			margin: 20px
+		}
+		#box ul li{
+			width: 30px;
+			height: 30px;
+			line-height: 30px;
+			text-align: center;
+			background: #eee;
+			color: black;
+			cursor: pointer;
+			display: inline-block;
+			margin: 5px;
+			overflow: hidden;
+		}
+	</style>
+	<script>
+		window.onload=function(){
+			var Text=document.getElementById("text");
+			var ld=document.getElementById("left_add");
+			var rd=document.getElementById("right_add");
+			var rr=document.getElementById("right_remove");
+			var lr=document.getElementById("left_remove");
+			var box=document.getElementById("box");
+			var ul=box.getElementsByTagName("ul")[0];
+			var lis=ul.getElementsByTagName("li");
+			ld.onclick=function(){
+				if(Text.value)
+				{
+					var newLi=document.createElement("li");
+					newLi.innerHTML=Text.value;
+					ul.insertBefore(newLi,ul.firstElementChild)
+				}
+				else
+				{
+					alert("请输入内容!")
+				}
+				removeUs()
+			}
+			rd.onclick=function(){
+				if(Text.value)
+				{
+					var newLi=document.createElement("li");
+					newLi.innerHTML=Text.value;
+					ul.appendChild(newLi)
+				}
+				else
+				{
+					alert("请输入内容!")
+				}
+				removeUs()
+			}
+			lr.onclick=function(){
+				ul.removeChild(ul.firstElementChild)
+				removeUs()
+			}
+			rr.onclick=function(){
+				ul.removeChild(ul.lastElementChild)
+				removeUs()
+			}
+			function removeUs(){
+				for(var i=0;i<lis.length;i++)
+				{
+					lis[i].onclick=function(){
+						ul.removeChild(this)
+					}
+				}
+			}
+			removeUs()
+		}
+	</script>
+</head>
+<body>
+	<input type="text" id="text">
+	<input type="button" value="左入" id="left_add">
+	<input type="button" value="右入" id="right_add">
+	<input type="button" value="右出" id="right_remove">
+	<input type="button" value="左出" id="left_remove">
+	<div id="box">
+		<ul>
+			<li>23</li>
+			<li>32</li>
+			<li>42</li>
+		</ul>
+	</div>
+</body>
+</html>
