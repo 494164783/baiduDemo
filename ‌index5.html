@@ -14,7 +14,6 @@
 		}
 		#box ul li{
 			width: 30px;
-			height: 30px;
 			line-height: 30px;
 			text-align: center;
 			background: #eee;
@@ -22,7 +21,6 @@
 			cursor: pointer;
 			display: inline-block;
 			margin: 5px;
-			overflow: hidden;
 		}
 	</style>
 	<script>
@@ -32,14 +30,17 @@
 			var rd=document.getElementById("right_add");
 			var rr=document.getElementById("right_remove");
 			var lr=document.getElementById("left_remove");
+			var sortUp=document.getElementById("sort_up");
+			var sortDown=document.getElementById("sort_down");
 			var box=document.getElementById("box");
 			var ul=box.getElementsByTagName("ul")[0];
-			var lis=ul.getElementsByTagName("li");
+            var lis=ul.getElementsByTagName("li");
 			ld.onclick=function(){
-				if(Text.value)
+                lis=ul.getElementsByTagName("li");
+				if(Text.value>10&&Text.value<100&&lis.length<60)
 				{
 					var newLi=document.createElement("li");
-					newLi.innerHTML=Text.value;
+					newLi.style.height=Text.value+"px";
 					ul.insertBefore(newLi,ul.firstElementChild)
 				}
 				else
@@ -47,12 +48,13 @@
 					alert("请输入内容!")
 				}
 				removeUs()
-			}
+			};
 			rd.onclick=function(){
-				if(Text.value)
+                lis=ul.getElementsByTagName("li");
+                if(Text.value>10&&Text.value<100&&lis.length<60)
 				{
 					var newLi=document.createElement("li");
-					newLi.innerHTML=Text.value;
+					newLi.style.height=Text.value+"px";
 					ul.appendChild(newLi)
 				}
 				else
@@ -60,15 +62,15 @@
 					alert("请输入内容!")
 				}
 				removeUs()
-			}
+			};
 			lr.onclick=function(){
-				ul.removeChild(ul.firstElementChild)
+				ul.removeChild(ul.firstElementChild);
 				removeUs()
-			}
+			};
 			rr.onclick=function(){
-				ul.removeChild(ul.lastElementChild)
+				ul.removeChild(ul.lastElementChild);
 				removeUs()
-			}
+			};
 			function removeUs(){
 				for(var i=0;i<lis.length;i++)
 				{
@@ -77,8 +79,59 @@
 					}
 				}
 			}
-			removeUs()
-		}
+			removeUs();
+			sortUp.onclick=function()
+			{
+                sort_up()
+            };
+			sortDown.onclick=function()
+			{
+                sort_down()
+            };
+			function sort_up()
+			{
+                lis=ul.getElementsByTagName("li");
+                var ll=lis.length;
+                var liArr=[];
+			    for(var i=0;i<ll;i++)
+				{
+					liArr.push(lis[i].offsetHeight);
+                }
+                ul.innerHTML="";
+                liArr.sort(function(a,b){
+                    return a-b
+				});
+                for(var l=0;l<liArr.length;l++)
+				{
+                    var newLi=document.createElement("li");
+					newLi.style.height=liArr[l]+"px";
+					ul.appendChild(newLi)
+				}
+				console.table(liArr)
+            }
+			function sort_down()
+			{
+                lis=ul.getElementsByTagName("li");
+                var ll=lis.length;
+                var liArr=[];
+			    for(var i=0;i<ll;i++)
+				{
+					liArr.push(lis[i].offsetHeight);
+                }
+                ul.innerHTML="";
+                liArr.sort(function(a,b){
+                    return b-a
+				});
+                for(var l=0;l<liArr.length;l++)
+				{
+                    var newLi=document.createElement("li");
+					newLi.style.height=liArr[l]+"px";
+					ul.appendChild(newLi)
+				}
+				console.table(liArr)
+            }
+
+        }
 	</script>
 </head>
 <body>
@@ -87,11 +140,10 @@
 	<input type="button" value="右入" id="right_add">
 	<input type="button" value="右出" id="right_remove">
 	<input type="button" value="左出" id="left_remove">
+	<input type="button" value="升序排列" id="sort_up">
+	<input type="button" value="降序排列" id="sort_down">
 	<div id="box">
 		<ul>
-			<li>23</li>
-			<li>32</li>
-			<li>42</li>
 		</ul>
 	</div>
 </body>
